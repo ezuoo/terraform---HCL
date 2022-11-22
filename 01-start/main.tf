@@ -1,16 +1,16 @@
-provider "local" { }
+provider "local" {}
 
 provider "aws" {
   region = "ap-northeast-2"
 }
 
 resource "local_file" "foo" {
-    filename = "${path.module}/foo.txt"
-    content  = "Hello World!"
+  filename = "${path.module}/foo.txt"
+  content  = "Hello World!"
 }
 
 data "local_file" "bar" {
-    filename = "${path.module}/bar.txt"
+  filename = "${path.module}/bar.txt"
 }
 
 # output "file_bar" {
@@ -23,7 +23,7 @@ resource "aws_vpc" "foo" {
   cidr_block = "10.123.0.0/16"
 
   tags = {
-    "Name" = "This is test vpc" 
+    "Name" = "This is test vpc"
   }
 }
 
