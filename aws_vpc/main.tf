@@ -58,3 +58,37 @@ resource "aws_route_table_association" "default-vpc-route-public-subnet" {
   subnet_id      = aws_subnet.default-vpc-public-subnet.id
   route_table_id = aws_route_table.default-vpc-route-public.id
 }
+
+# Data :  aws vpc network acls's ids
+# data "aws_network_acls" "vpc_acls" {
+#   vpc_id = aws_vpc.default-vpc.id
+# }
+
+# output "acls" {
+#   value = data.aws_network_acls.vpc_acls
+# }
+
+# Creating aws vpc public network acl
+resource "aws_network_acl" "default-vpc-public-network-acl" {
+  vpc_id = aws_vpc.default-vpc.id
+
+  subnet_ids = [aws_subnet.default-vpc-public-subnet.id]
+
+  tags = {
+    Name = "default-vpc-public-NACL"
+  }
+}
+
+# Creating aws vpc public network acl rule
+resource "aws_network_acl_rule" "default-vpc-public-network-acl-rule" {
+  network_acl_id = aws_network_acl.default-vpc-public-network-acl.id
+
+  rule_number = 100
+  egress      = false
+  protocol    = "tcp"
+  rule_action = "allow"
+  cidr_block  = "0.0.0.0/0"
+  from_port   = 22
+  to_port     = 22
+
+}
