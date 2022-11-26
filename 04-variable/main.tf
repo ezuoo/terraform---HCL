@@ -11,7 +11,25 @@ variable "vpc_name" {
 locals {
   common_tags = {
     Project = "Network"
-    Owner = "jawn"
+    Owner   = "jawn"
+  }
+}
+
+output "vpc_name" {
+  description = "생성된 VPC의 이름"
+  value = module.vpc.name
+}
+output "vpc_id" {
+  value = module.vpc.id
+}
+output "vpc_cidr" {
+  value = module.vpc.cidr_block
+}
+
+output "subnet_groups" {
+  value = {
+    public  = module.subnet_group__public
+    private = module.subnet_group__private
   }
 }
 
