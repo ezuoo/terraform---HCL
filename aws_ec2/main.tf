@@ -44,11 +44,29 @@ resource "aws_security_group" "ubuntu-ec2-sg" {
   }
 }
 
-resource "aws_security_group_rule" "ubuntu-ec2-sg-inbound" {
+resource "aws_security_group_rule" "ubuntu-ec2-sg-inbound-ssh" {
   type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.ubuntu-ec2-sg.id
+}
+
+resource "aws_security_group_rule" "ubuntu-ec2-sg-inbound-http" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.ubuntu-ec2-sg.id
+}
+
+resource "aws_security_group_rule" "ubuntu-ec2-sg-inbound-https" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.ubuntu-ec2-sg.id
 }
