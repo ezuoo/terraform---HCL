@@ -2,7 +2,11 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
-variable "vpc_name" {}
+variable "vpc_name" {
+  default     = "fast-default"
+  type        = string
+  description = "생성되는 VPC의 이름"
+}
 
 module "vpc" {
   source  = "tedilabs/network/aws//modules/vpc"
