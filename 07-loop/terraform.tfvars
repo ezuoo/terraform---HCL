@@ -1,3 +1,4 @@
+groups = ["developers", "employee"]
 users = [
   {
     name         = "john"
