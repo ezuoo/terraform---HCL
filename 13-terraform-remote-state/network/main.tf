@@ -23,6 +23,13 @@ output "vpc_id" {
   value = module.vpc.id
 }
 
+output "subnet_groups" {
+  value = {
+    Public  = module.subnet_group__public.ids
+    Private = module.subnet_group__private.ids
+  }
+}
+
 
 module "vpc" {
   source  = "tedilabs/network/aws//modules/vpc"
