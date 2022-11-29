@@ -16,7 +16,7 @@ locals {
 
 output "vpc_name" {
   description = "생성된 VPC의 이름"
-  value = module.vpc.name
+  value       = module.vpc.name
 }
 output "vpc_id" {
   value = module.vpc.id

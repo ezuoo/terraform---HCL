@@ -1,1 +1,1 @@
-vpc_name="staging"
+vpc_name = "staging"

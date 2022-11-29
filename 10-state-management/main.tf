@@ -13,7 +13,7 @@ variable "users" {
 
 resource "aws_iam_group" "this" {
   for_each = toset(var.groups)
-  
+
   name = each.key
 }
 
@@ -31,7 +31,7 @@ resource "aws_iam_user" "users" {
 resource "aws_iam_user_group_membership" "this" {
   for_each = { for user in var.users : user.name => user }
 
-  user = each.key
+  user   = each.key
   groups = each.value.is_developer ? [aws_iam_group.this["developer"].name, aws_iam_group.this["employee"].name] : [aws_iam_group.this["employee"].name]
 }
 

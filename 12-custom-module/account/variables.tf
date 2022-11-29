@@ -12,7 +12,7 @@ variable "password_policy" {
     require_lowercase_characters   = bool
     require_uppercase_characters   = bool
     allow_users_to_change_password = bool
-    hard_expriry                   = bool
+    hard_expiry                    = bool
     max_password_age               = number
     password_reuse_prevention      = number
   })
@@ -23,7 +23,7 @@ variable "password_policy" {
     require_lowercase_characters   = true
     require_uppercase_characters   = true
     allow_users_to_change_password = true
-    hard_expriry                   = false
+    hard_expiry                    = false
     max_password_age               = 0
     password_reuse_prevention      = 0
   }

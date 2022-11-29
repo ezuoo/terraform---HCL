@@ -87,8 +87,8 @@ resource "aws_network_interface" "ubuntu-ec2-ni" {
 resource "aws_instance" "ubuntu-ec2" {
   ami = data.aws_ami.ubuntu.image_id
 
-  key_name               = "fastcampus"
-  instance_type          = "t2.micro"
+  key_name      = "fastcampus"
+  instance_type = "t2.micro"
   network_interface {
     network_interface_id = aws_network_interface.ubuntu-ec2-ni.id
     device_index         = 0

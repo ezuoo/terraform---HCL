@@ -1,9 +1,9 @@
 provider "aws" {
-    region = "ap-northeast-2"
+  region = "ap-northeast-2"
 }
 
 variable "is_john" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -16,7 +16,7 @@ output "message" {
 }
 
 variable "internet_gateway_enabled" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -25,6 +25,6 @@ resource "aws_vpc" "test_vpc" {
 }
 
 resource "aws_internet_gateway" "test_internet_gateway" {
-  count = var.internet_gateway_enabled  ? 1 : 0
+  count  = var.internet_gateway_enabled ? 1 : 0
   vpc_id = aws_vpc.test_vpc.id
 }
