@@ -34,8 +34,8 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.image_id
   instance_type = "t2.micro"
-
+  subnet_id     = local.subnet_groups["Public"][0]
   tags = {
-    Name = "fastcampus-ubuntu"
+    Name = "${local.vpc_name}-ubuntu"
   }
 }
