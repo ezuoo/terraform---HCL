@@ -82,9 +82,9 @@ resource "aws_instance" "userdata" {
   key_name      = "fastcampus"
 
   user_data = <<EOT
-  #!/bin/bash
-  sudo apt-get update
-  sudo apt-get install -y nginx
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install -y nginx
 EOT
 
   vpc_security_group_ids = [
@@ -92,13 +92,44 @@ EOT
   ]
 
   tags = {
-    Name = "fastcampush-userdata"
+    Name = "fastcampus-userdata"
   }
 }
 
 ###################################################
 # Provisioner - in EC2
 ###################################################
+# resource "aws_instance" "provisioner" {
+#   ami           = data.aws_ami.ubuntu.image_id
+#   instance_type = "t2.micro"
+#   key_name      = "fastcampus"
+
+#   vpc_security_group_ids = [
+#     module.security_group.id,
+#   ]
+
+#   tags = {
+#     Name = "fastcampus-provisioner"
+#   }
+
+#   provisioner "remote-exec" {
+#     inline = [
+#       "sudo apt-get update",
+#       "sudo apt-get install -y nginx",
+#     ]
+
+#     connection {
+#       type = "ssh"
+#       user = "ubuntu"
+#       host = self.public_ip
+#     }
+#   }
+# }
+
+###################################################
+# Provisioner - in null-resources
+###################################################
+
 resource "aws_instance" "provisioner" {
   ami           = data.aws_ami.ubuntu.image_id
   instance_type = "t2.micro"
@@ -111,17 +142,49 @@ resource "aws_instance" "provisioner" {
   tags = {
     Name = "fastcampus-provisioner"
   }
+}
+
+resource "null_resource" "provisioner" {
+  triggers = {
+    instance_id = aws_instance.provisioner.id
+    script      = filemd5("${path.module}/files/install-nginx.sh")
+    index_file  = filemd5("${path.module}/files/index.html")
+  }
+
+  provisioner "local-exec" {
+    command = "echo Hello World"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/files/index.html"
+    destination = "/tmp/index.html"
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      host = aws_instance.provisioner.public_ip
+    }
+  }
+
+  provisioner "remote-exec" {
+    script = "${path.module}/files/install-nginx.sh"
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      host = aws_instance.provisioner.public_ip
+    }
+  }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y nginx",
+      "sudo cp /tmp/index.html /var/www/html/index.html"
     ]
 
     connection {
       type = "ssh"
       user = "ubuntu"
-      host = self.public_ip
+      host = aws_instance.provisioner.public_ip
     }
   }
 }
