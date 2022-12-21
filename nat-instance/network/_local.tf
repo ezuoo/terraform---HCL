@@ -1,9 +1,17 @@
-cidr = "10.0.0.0/16"
-
-azs             = ["ap-northeast-2a"]
-private_subnets = ["10.0.1.0/24", ]
-public_subnets  = ["10.0.101.0/24"]
-
 locals {
+  name     = var.name
+  vpc_cidr = var.vpc_cidr
+  azs      = ["${var.region}a"]
 
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
+
+  enable_ipv6        = var.enable_ipv6
+  enable_nat_gateway = var.enable_nat_gateway
+  single_nat_gateway = var.single_nat_gateway
+
+  tags                = merge(var.tags, { Owner = var.owner, Environment = var.env })
+  vpc_tags            = merge(var.vpc_tags, { Name = format("%s-vpc", var.name) })
+  private_subnet_tags = merge(var.private_subnet_tags, { Name = format("%s-private-sb", var.name) })
+  public_subnet_tags  = merge(var.public_subnet_tags, { Name = format("%s-public-sb", var.name) })
 }

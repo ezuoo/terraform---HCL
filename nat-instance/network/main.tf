@@ -1,18 +1,20 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "natgateway_vpc"
-  cidr = "10.0.0.0/16"
+  name = local.name
+  cidr = local.vpc_cidr
 
-  azs             = ["ap-northeast-2a"]
-  private_subnets = ["10.0.1.0/24", ]
-  public_subnets  = ["10.0.101.0/24"]
+  azs             = local.azs
+  private_subnets = local.private_subnets
+  public_subnets  = local.public_subnets
 
-  enable_nat_gateway = false
-  enable_vpn_gateway = true
+  enable_ipv6 = local.enable_ipv6
 
-  tags = {
-    Environment = "dev"
-    Owner       = "jawn"
-  }
+  enable_nat_gateway = local.enable_nat_gateway
+  single_nat_gateway = local.single_nat_gateway
+
+  tags                = local.tags
+  public_subnet_tags  = local.public_subnet_tags
+  private_subnet_tags = local.private_subnet_tags
+  vpc_tags            = local.vpc_tags
 }

@@ -1,4 +1,4 @@
-variable "dev" {}
+variable "env" {}
 variable "name" {}
 variable "owner" {}
 variable "region" {}
@@ -15,9 +15,10 @@ variable "enable_nat_gateway" {
   default = false
 }
 variable "single_nat_gateway" {
-  default = true
+  default = false
 }
+
+variable "tags" {}
 variable "private_subnet_tags" {}
 variable "public_subnet_tags" {}
 variable "vpc_tags" {}
-variable "tags" {}

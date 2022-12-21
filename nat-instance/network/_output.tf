@@ -2,7 +2,7 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
-outpub "azs" {
+output "azs" {
   value = module.vpc.azs
 }
 
@@ -14,6 +14,6 @@ output "public_subnets" {
   value = module.vpc.public_subnets
 }
 
-ouput "private_subnets" {
+output "private_subnets" {
   value = module.vpc.private_subnets
 }
