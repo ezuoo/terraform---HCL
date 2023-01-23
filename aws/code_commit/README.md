@@ -30,5 +30,7 @@ No inputs.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_repo"></a> [repo](#output\_repo) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
